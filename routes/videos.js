@@ -7,28 +7,30 @@ router.use(express.json());
 
 const videoDetailsPath = "./data/videos.json";
 
+router.route("/videos").get((req, res) => {
+  // res.send(JSON.parse(fs.readFileSync(videoDetailsPath)));
+  let videosNoComments = [];
+  let dataPath = JSON.parse(fs.readFileSync(videoDetailsPath));
 
-router
-  .route("/videos")
-  .get((req, res) => {
-    // res.send(JSON.parse(fs.readFileSync(videoDetailsPath)));
-    let videosNoComments = [];
-    let dataPath = JSON.parse(fs.readFileSync(videoDetailsPath));
-
-    dataPath.map((videos) => {
-        videoNoComments.push({
-            title: videos.title,
-            channel: videos.channel,
-            image: videos.image
-       })
+  dataPath.map((videos) => {
+    videoNoComments.push({
+      title: videos.title,
+      channel: videos.channel,
+      image: videos.image,
     });
-
-    res.json(VideoNoComments);
   });
 
+  res.json(VideoNoComments);
+});
 
+router.route("/videos/:id").get((req, res) => {
+  const id = req.params.id;
 
+  const videoDetails = JSON.parse(fs.readFileSync(videoDetailsPath));
 
+  const filteredVideos = videoDetails.find((video) => video.id === id);
 
+  return res.json(filteredVideos);
+});
 
 module.exports = router;
