@@ -1,11 +1,12 @@
+require("dotenv").config();
 const fs = require("fs");
 const express = require("express");
 const app = express();
 const cors = require("cors");
 app.use(cors());
 const videoRoutes = require("./routes/videos");
-const PORT = 8080;
 
+const PORT = process.env.PORT || 8080;
 
 // Define route for videos
 app.use('/', videoRoutes);
